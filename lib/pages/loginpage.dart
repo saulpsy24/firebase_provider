@@ -15,68 +15,69 @@ class LoginPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('login'),
       ),
-      body: SafeArea(
-          child: ListView(children: <Widget>[
-        Column(
-          children: <Widget>[
-            FormBuilder(
-              key: _fbKey,
-              autovalidate: true,
-              child: Column(
+      body: ChangeNotifierProvider(
+        builder: (context) => MyProvider(),
+        child: SafeArea(
+            child: ListView(children: <Widget>[
+          Column(
+            children: <Widget>[
+              FormBuilder(
+                key: _fbKey,
+                autovalidate: true,
+                child: Column(
+                  children: <Widget>[
+                    FormBuilderTextField(
+                      keyboardType: TextInputType.emailAddress,
+                      attribute: "email",
+                      decoration: InputDecoration(labelText: "Email"),
+                      validators: [
+                        FormBuilderValidators.required(
+                            errorText: 'Debes Introducir un email valido'),
+                        FormBuilderValidators.max(20),
+                      ],
+                    ),
+                    FormBuilderTextField(
+                      obscureText: true,
+                      attribute: "password",
+                      decoration: InputDecoration(labelText: "Password"),
+                      validators: [
+                        FormBuilderValidators.required(
+                            errorText: 'Debes introducir un password'),
+                        FormBuilderValidators.minLength(6,
+                            errorText:
+                                'Introduce un password de minimo 6 caracteres')
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Row(
                 children: <Widget>[
-                  FormBuilderTextField(
-                    keyboardType: TextInputType.emailAddress,
-                    attribute: "email",
-                    decoration: InputDecoration(labelText: "Email"),
-                    validators: [
-                      FormBuilderValidators.required(
-                          errorText: 'Debes Introducir un email valido'),
-                      FormBuilderValidators.max(20),
-                    ],
+                  MaterialButton(
+                    child: Text("Submit"),
+                    onPressed: () {
+                      _fbKey.currentState.save();
+                      if (_fbKey.currentState.validate()) {
+                        var _email = _fbKey.currentState.value["email"];
+                        var _password = _fbKey.currentState.value["password"];
+                        _handleSignIn(_email, _password, context);
+                      }
+                    },
                   ),
-                  FormBuilderTextField(
-                    obscureText: true,
-                    attribute: "password",
-                    decoration: InputDecoration(labelText: "Password"),
-                    validators: [
-                      FormBuilderValidators.required(
-                          errorText: 'Debes introducir un password'),
-                      FormBuilderValidators.minLength(6,
-                          errorText:
-                              'Introduce un password de minimo 6 caracteres')
-                    ],
+                  MaterialButton(
+                    child: Text("Registrar"),
+                    onPressed: () {
+                      final page = ChangeNotifierProvider(builder: (context)=>MyProvider(), child:RegisterPage());
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => page));
+                    },
                   ),
                 ],
-              ),
-            ),
-            Row(
-              children: <Widget>[
-                MaterialButton(
-                  child: Text("Submit"),
-                  onPressed: () {
-                    _fbKey.currentState.save();
-                    if (_fbKey.currentState.validate()) {
-                      var _email = _fbKey.currentState.value["email"];
-                      var _password = _fbKey.currentState.value["password"];
-                      _handleSignIn(_email, _password, context);
-                    }
-                  },
-                ),
-                MaterialButton(
-                  child: Text("Registrar"),
-                  onPressed: () {
-                    
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RegisterPage()));
-                  },
-                ),
-              ],
-            )
-          ],
-        ),
-      ])),
+              )
+            ],
+          ),
+        ])),
+      ),
     );
   }
 

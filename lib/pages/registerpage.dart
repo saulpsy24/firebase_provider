@@ -85,7 +85,7 @@ class RegisterPage extends StatelessWidget {
     var login = Provider.of<MyProvider>(context);
 
     print(_email + _password);
-    final FirebaseUser user = await _auth.signInWithEmailAndPassword(
+    final FirebaseUser user = await _auth.createUserWithEmailAndPassword(
         email: _email, password: _password);
     if (user != null) {
       print(user.uid);

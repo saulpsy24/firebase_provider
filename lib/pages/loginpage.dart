@@ -66,6 +66,10 @@ class LoginPage extends StatelessWidget {
                   child: Text("Registrar"),
                   onPressed: () {
                     
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RegisterPage()));
                   },
                 ),
               ],

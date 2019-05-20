@@ -81,7 +81,7 @@ class RegisterPage extends StatelessWidget {
     );
   }
 
- /* Future<FirebaseUser> _handleSignIn(_email, _password, context) async {
+  Future<FirebaseUser> _handleSignIn(_email, _password, context) async {
     var login = Provider.of<MyProvider>(context);
 
     print(_email + _password);
@@ -93,5 +93,5 @@ class RegisterPage extends StatelessWidget {
       return user;
     }
     return null;
-  } */
+  } 
 }

@@ -1,49 +1,62 @@
+import 'package:firebase_login_messages/pages/home/hometab.dart';
 import 'package:firebase_login_messages/pages/loginpage.dart';
-import 'package:firebase_login_messages/pages/rootpage.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:firebase_login_messages/pages/profile/profiletab.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './../providers/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class HomePage extends StatelessWidget {
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  
+
   @override
   Widget build(BuildContext context) {
     var loginstate = Provider.of<MyProvider>(context);
     final page = LoginPage();
-    void usuario () async {
+    void usuario() async {
       FirebaseUser user = await FirebaseAuth.instance.currentUser();
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Inicio'),
+      bottomNavigationBar: CurvedNavigationBar(
+        backgroundColor: Colors.blue,
+        items: <Widget>[
+          Icon(Icons.home, size: 30),
+          Icon(Icons.subject, size: 30),
+          Icon(Icons.person, size: 30),
+        ],
+        onTap: (index) {
+          loginstate.updateIndex = index;
+          //Handle button tap
+        },
       ),
-      body: SafeArea(
-        child: Container(
-          child: Center(
-            child: RaisedButton(
-                child: Text(''),
-                onPressed: () async {
-                  _logout(context).then((_) {
-                    final page = ChangeNotifierProvider(
-                        builder: (context) => MyProvider(), child: RootPage());
-                    Navigator.pushReplacement(
-                        context, MaterialPageRoute(builder: (context) => page));
-                  });
-                }),
-          ),
-        ),
+      body: 
+         Container(
+          color: Colors.blue,
+          child:_selectPage(loginstate.selectedIndex)
+              ,
+        
       ),
     );
   }
 
-  _logout(context) async {
-    var loginstate = Provider.of<MyProvider>(context);
-    var logout = await FirebaseAuth.instance.signOut().then((_) {
-      print('Salio exitosamente');
-      loginstate.updateLogin = false;
-    }).catchError((e) {
-      print('error al salir');
-    });
+  _selectPage (int indice) {
+    switch(indice){
+      case 0:
+      return HomeTab();
+      case 1:
+      return Container(color:Colors.blue , child: Center(child: Text('Cursos'),),);
+      case 2:
+      return ProfileTab();
+      default:
+      return Container(color:Colors.blue , child: Center(child: Text('Not valid'),),);
+    }
   }
+
+ 
+
+ 
 }

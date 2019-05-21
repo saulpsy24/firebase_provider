@@ -12,49 +12,67 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('login'),
-      ),
-      body: ChangeNotifierProvider(
-        builder: (context) => MyProvider(),
+        body: ChangeNotifierProvider(
+      builder: (context) => MyProvider(),
+      child: Container(
+        color: Colors.blue,
         child: SafeArea(
             child: ListView(children: <Widget>[
           Column(
             children: <Widget>[
-              FormBuilder(
-                key: _fbKey,
-                autovalidate: true,
-                child: Column(
-                  children: <Widget>[
-                    FormBuilderTextField(
-                      keyboardType: TextInputType.emailAddress,
-                      attribute: "email",
-                      decoration: InputDecoration(labelText: "Email"),
-                      validators: [
-                        FormBuilderValidators.required(
-                            errorText: 'Debes Introducir un email valido'),
-                        FormBuilderValidators.max(20),
-                      ],
-                    ),
-                    FormBuilderTextField(
-                      obscureText: true,
-                      attribute: "password",
-                      decoration: InputDecoration(labelText: "Password"),
-                      validators: [
-                        FormBuilderValidators.required(
-                            errorText: 'Debes introducir un password'),
-                        FormBuilderValidators.minLength(6,
-                            errorText:
-                                'Introduce un password de minimo 6 caracteres')
-                      ],
-                    ),
-                  ],
-                ),
+              Container(
+                margin: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * .1),
+                width: MediaQuery.of(context).size.width*.5,
+                height: MediaQuery.of(context).size.width*.5,
+                decoration:BoxDecoration(
+                  image: DecorationImage(
+                    image:AssetImage('assets/books.png')
+                  )
+                )
               ),
-              Row(
+              Card(
+                  child: Container(
+                    
+                padding: EdgeInsets.only(left: 15, right: 15, bottom: 10),
+                child: FormBuilder(
+                  key: _fbKey,
+                  autovalidate: true,
+                  child: Column(
+                    children: <Widget>[
+                      FormBuilderTextField(
+                        keyboardType: TextInputType.emailAddress,
+                        attribute: "email",
+                        decoration: InputDecoration(labelText: "Email"),
+                        validators: [
+                          FormBuilderValidators.required(
+                              errorText: 'Debes Introducir un email valido'),
+                          FormBuilderValidators.max(20),
+                        ],
+                      ),
+                      FormBuilderTextField(
+                        obscureText: true,
+                        attribute: "password",
+                        decoration: InputDecoration(labelText: "Password"),
+                        validators: [
+                          FormBuilderValidators.required(
+                              errorText: 'Debes introducir un password'),
+                          FormBuilderValidators.minLength(6,
+                              errorText:
+                                  'Introduce un password de minimo 6 caracteres')
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              )),
+              Column(
                 children: <Widget>[
                   MaterialButton(
-                    child: Text("Submit"),
+                    child: Text("Entrar"),
+                    color: Colors.yellow,
+                    shape: StadiumBorder(),
+                    
+
                     onPressed: () {
                       _fbKey.currentState.save();
                       if (_fbKey.currentState.validate()) {
@@ -66,8 +84,12 @@ class LoginPage extends StatelessWidget {
                   ),
                   MaterialButton(
                     child: Text("Registrar"),
+                    color: Colors.yellowAccent,
+                    shape: StadiumBorder(),
                     onPressed: () {
-                      final page = ChangeNotifierProvider(builder: (context)=>MyProvider(), child:RegisterPage());
+                      final page = ChangeNotifierProvider(
+                          builder: (context) => MyProvider(),
+                          child: RegisterPage());
                       Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) => page));
                     },
@@ -78,7 +100,7 @@ class LoginPage extends StatelessWidget {
           ),
         ])),
       ),
-    );
+    ));
   }
 
   Future<FirebaseUser> _handleSignIn(_email, _password, context) async {

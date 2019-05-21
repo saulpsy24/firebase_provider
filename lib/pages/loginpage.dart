@@ -4,6 +4,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import '../providers/provider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoginPage extends StatelessWidget {
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
@@ -21,18 +22,21 @@ class LoginPage extends StatelessWidget {
           Column(
             children: <Widget>[
               Container(
-                margin: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * .1),
-                width: MediaQuery.of(context).size.width*.5,
-                height: MediaQuery.of(context).size.width*.5,
-                decoration:BoxDecoration(
-                  image: DecorationImage(
-                    image:AssetImage('assets/books.png')
-                  )
-                )
+                  margin: EdgeInsets.symmetric(
+                      vertical: MediaQuery.of(context).size.height * .05),
+                  width: MediaQuery.of(context).size.width * .5,
+                  height: MediaQuery.of(context).size.width * .5,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage('assets/books.png')))),
+              Container(
+                margin:EdgeInsets.symmetric(vertical: 10),
+                child: Center(
+                  child: Text('¡Hola de nuevo!',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),),
+                ),
               ),
               Card(
                   child: Container(
-                    
                 padding: EdgeInsets.only(left: 15, right: 15, bottom: 10),
                 child: FormBuilder(
                   key: _fbKey,
@@ -71,8 +75,7 @@ class LoginPage extends StatelessWidget {
                     child: Text("Entrar"),
                     color: Colors.yellow,
                     shape: StadiumBorder(),
-                    
-
+                    minWidth: MediaQuery.of(context).size.width * .85,
                     onPressed: () {
                       _fbKey.currentState.save();
                       if (_fbKey.currentState.validate()) {
@@ -86,6 +89,7 @@ class LoginPage extends StatelessWidget {
                     child: Text("Registrar"),
                     color: Colors.yellowAccent,
                     shape: StadiumBorder(),
+                    minWidth: MediaQuery.of(context).size.width * .85,
                     onPressed: () {
                       final page = ChangeNotifierProvider(
                           builder: (context) => MyProvider(),
@@ -94,6 +98,22 @@ class LoginPage extends StatelessWidget {
                           MaterialPageRoute(builder: (context) => page));
                     },
                   ),
+                  MaterialButton(
+                    onPressed: (){},
+                    minWidth: MediaQuery.of(context).size.width * .85,
+                    shape: StadiumBorder(),
+                    color: Color.fromRGBO(59, 89, 152, 100),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * .60 ,
+                      child:Row(
+                      
+                      children: <Widget>[
+                        Icon(FontAwesomeIcons.facebook,color: Colors.white,),
+                        Text(' Entra con Facebook',style: TextStyle(color: Colors.white),)
+                      ],
+                    ),
+                    )
+                  )
                 ],
               )
             ],
